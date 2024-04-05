@@ -31,7 +31,8 @@ ALLOWED_HOSTS = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:4200',
+    'http://localhost',
+    'http://127.0.0.1:5500'
 ]
 
 # Application definition
@@ -132,7 +133,7 @@ STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 
 
@@ -140,7 +141,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #selbst hinzugefügt
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',        
     ]
 }

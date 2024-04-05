@@ -20,6 +20,11 @@ class Contact(models.Model):
     def __str__(self) -> str:
         return self.name
     
+    def create_contact(self, title):
+        book = self.create(title=title)
+        # do something with the book
+        return book
+    
 
 class Subtask(models.Model):
     name = models.CharField(max_length = 30)

@@ -17,11 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from Backend.views import LoginView, RegisterView, TaskView
+from Backend.views import ContactView, LoginView, RegisterView, TaskView
 
 urlpatterns = [
-    path('', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('register/', RegisterView.as_view()),
     path('tasks/', TaskView.as_view()),
     path('login/', LoginView.as_view()),
+    path('contact/', ContactView.as_view()),
+    path('contact/<int:pk>/', ContactView.as_view(), name='contact-detail'),
 ]
