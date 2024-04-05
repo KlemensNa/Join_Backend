@@ -17,6 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from Backend.views import LoginView, RegisterView, TaskView
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('', admin.site.urls),
+    path('register/', RegisterView.as_view()),
+    path('tasks/', TaskView.as_view()),
+    path('login/', LoginView.as_view()),
 ]
