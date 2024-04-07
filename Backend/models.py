@@ -5,8 +5,7 @@ class Category(models.Model):
     color = models.CharField(max_length = 10)
     
     def __str__(self) -> str:
-        return {'name' :self.name,
-                'color' : self.color}
+        return self.name
          
 
 class Contact(models.Model):
@@ -19,11 +18,6 @@ class Contact(models.Model):
     #name in adminMenu wird zurückgegeben
     def __str__(self) -> str:
         return self.name
-    
-    def create_contact(self, title):
-        book = self.create(title=title)
-        # do something with the book
-        return book
     
 
 class Subtask(models.Model):

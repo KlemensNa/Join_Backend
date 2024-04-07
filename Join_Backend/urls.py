@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from Backend.views import ContactView, LoginView, RegisterView, TaskView
+from Backend.views import CategoryView, ContactView, LoginView, RegisterView, TaskView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,4 +26,6 @@ urlpatterns = [
     path('login/', LoginView.as_view()),
     path('contact/', ContactView.as_view()),
     path('contact/<int:pk>/', ContactView.as_view(), name='contact-detail'),
+    path('category/', CategoryView.as_view()),
+    path('category/<int:pk>/', CategoryView.as_view(), name='category-detail'),
 ]

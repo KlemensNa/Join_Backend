@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Contact, Task
+from .models import Category, Contact, Task
 
 
 
@@ -14,6 +14,11 @@ class ContactSerializer(serializers.ModelSerializer):
         model = Contact
         fields = '__all__'
         
+        
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = '__all__'
     
 
         

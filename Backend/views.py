@@ -4,8 +4,8 @@ from rest_framework.authtoken.views import ObtainAuthToken, APIView
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from Backend.models import Contact, Task
-from Backend.serializer import ContactSerializer, TaskSerializer
+from Backend.models import Category, Contact, Task
+from Backend.serializer import CategorySerializer, ContactSerializer, TaskSerializer
 from django.contrib.auth.models import User
 from rest_framework import status
 
@@ -68,7 +68,42 @@ class RegisterView(APIView):
             'username': user.username,
             'email': user.email
         })
+            
+
+class CategoryView(APIView):
+    
+    def get(self, request, pk=None, format=None):
+        if pk:
+            try:
+                category = Category.objects.get(pk=pk)
+            except Category.DoesNotExist:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+            serializer = CategorySerializer(category)
+            return Response(serializer.data)
+        else:
+            category = Category.objects.all()
+            serializer = CategorySerializer(category, many=True)
+            return Response(serializer.data)
         
+    
+    def post(self, request, format=None):
+        serializer = CategorySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()  
+            return Response(serializer.data, status=201) 
+        return Response(serializer.errors, status=400)
+    
+    
+    def delete(self, request, pk, format=None):
+        try:
+            category = Category.objects.get(pk=pk)
+        except Category.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        category.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 
 class ContactView(APIView):
     def post(self, request, format=None):
