@@ -20,6 +20,7 @@ class Contact(models.Model):
         return self.name
     
 
+
 class Subtask(models.Model):
     name = models.CharField(max_length = 30)
     checked = models.BooleanField(default = False)
@@ -30,7 +31,7 @@ class Subtask(models.Model):
     
 class Task(models.Model):
     title = models.CharField(max_length = 30)
-    description = models.CharField(max_length = 30)
+    description = models.CharField(max_length = 100)
     category = models.ForeignKey(
         Category,
         on_delete = models.PROTECT
@@ -38,17 +39,16 @@ class Task(models.Model):
     assigned_to = models.ManyToManyField(Contact)
     due_date = models.DateField()
     prio = models.CharField(max_length = 10)
-    subtasks = models.ForeignKey(
-        Subtask,
-        on_delete = models.CASCADE
-    )    
+    column = models.CharField(max_length = 30, default="board_container_bottom_todo")
+    subtasks = models.ManyToManyField(Subtask, null=True, default=[], blank=True)
     
     #title in adminMenu wird zurückgegeben
     def __str__(self) -> str:
         return self.title
     
 
-    
+
+
 
 
     

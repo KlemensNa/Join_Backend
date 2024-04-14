@@ -4,8 +4,8 @@ from rest_framework.authtoken.views import ObtainAuthToken, APIView
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from Backend.models import Category, Contact, Task
-from Backend.serializer import CategorySerializer, ContactSerializer, TaskSerializer
+from Backend.models import Category, Contact, Subtask, Task
+from Backend.serializer import CategorySerializer, ContactSerializer, SubtasksSerializer, TaskPOSTSerializer, TaskSerializer
 from django.contrib.auth.models import User
 from rest_framework import status
 
@@ -39,8 +39,8 @@ class LoginView(ObtainAuthToken):
 class TaskView(APIView):    
     #Authentication with token
     # permission only when authentication is successful
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAuthenticated]
 
     def get(self, request, format=None):
         task = Task.objects.all()
@@ -48,11 +48,12 @@ class TaskView(APIView):
         return Response(serializer.data)
     
     def post(self, request, format=None):
-        serializer = TaskSerializer(data=request.data)
+        serializer = TaskPOSTSerializer(data=request.data)
         if serializer.is_valid():
                 serializer.save()          
                 return Response(serializer.data)
         return Response(serializer.errors)
+    
     
 
 class RegisterView(APIView):
@@ -148,6 +149,53 @@ class ContactView(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
         
         contact.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    
+
+class SubtasksView(APIView):
+    def post(self, request, format=None):
+        serializer = SubtasksSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()  # Speichert das Contact-Objekt in der Datenbank
+            return Response(serializer.data, status=201)  # Erfolgreiche Antwort
+        return Response(serializer.errors, status=400)  # Fehlerhafte Daten
+    
+    
+    def get(self, request, pk=None, format=None):
+        if pk:
+            try:
+                subtask = Subtask.objects.get(pk=pk)
+            except Subtask.DoesNotExist:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+            serializer = SubtasksSerializer(subtask)
+            return Response(serializer.data)
+        else:
+            subtask = Subtask.objects.all()
+            serializer = SubtasksSerializer(subtask, many=True)
+            return Response(serializer.data)
+    
+    
+#     def put(self, request, pk, format=None):
+#         try:
+#             subtask = Subtask.objects.get(pk=pk)
+#         except Contact.DoesNotExist:
+#             return Response(status=status.HTTP_404_NOT_FOUND)
+        
+#         serializer = SubtasksSerializer(subtask, data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+    def delete(self, request, pk, format=None):
+        try:
+             subtask = Subtask.objects.get(pk=pk)
+        except Subtask.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        subtask.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
     
