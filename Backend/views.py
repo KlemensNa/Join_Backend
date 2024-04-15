@@ -42,10 +42,18 @@ class TaskView(APIView):
     # authentication_classes = [TokenAuthentication]
     # permission_classes = [IsAuthenticated]
 
-    def get(self, request, format=None):
-        task = Task.objects.all()
-        serializer = TaskSerializer(task, many=True)
-        return Response(serializer.data)
+    def get(self, request, pk=None, format=None):
+        if pk:
+            try:
+                task = Task.objects.get(pk=pk)
+            except Task.DoesNotExist:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+            serializer = TaskSerializer(task)
+            return Response(serializer.data)
+        else:
+            task = Task.objects.all()
+            serializer = TaskSerializer(task, many=True)
+            return Response(serializer.data)
     
     def post(self, request, format=None):
         serializer = TaskPOSTSerializer(data=request.data)
@@ -53,6 +61,18 @@ class TaskView(APIView):
                 serializer.save()          
                 return Response(serializer.data)
         return Response(serializer.errors)
+    
+    def put(self, request, pk, format=None):
+        try:
+            task = Task.objects.get(pk=pk)
+        except Task.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = TaskPOSTSerializer(task, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     
 
@@ -176,17 +196,17 @@ class SubtasksView(APIView):
             return Response(serializer.data)
     
     
-#     def put(self, request, pk, format=None):
-#         try:
-#             subtask = Subtask.objects.get(pk=pk)
-#         except Contact.DoesNotExist:
-#             return Response(status=status.HTTP_404_NOT_FOUND)
+    def put(self, request, pk, format=None):
+        try:
+            subtask = Subtask.objects.get(pk=pk)
+        except Contact.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
         
-#         serializer = SubtasksSerializer(subtask, data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer = SubtasksSerializer(subtask, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     
     def delete(self, request, pk, format=None):

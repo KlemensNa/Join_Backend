@@ -39,7 +39,7 @@ class Task(models.Model):
     assigned_to = models.ManyToManyField(Contact)
     due_date = models.DateField()
     prio = models.CharField(max_length = 10)
-    column = models.CharField(max_length = 30, default="board_container_bottom_todo")
+    column = models.CharField(max_length = 50)
     subtasks = models.ManyToManyField(Subtask, null=True, default=[], blank=True)
     
     #title in adminMenu wird zurückgegeben

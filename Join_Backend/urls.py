@@ -30,5 +30,5 @@ urlpatterns = [
     path('category/', CategoryView.as_view()),
     path('category/<int:pk>/', CategoryView.as_view(), name='category-detail'),
     path('subtask/', SubtasksView.as_view(), name='category-detail'),
-    # path('subtask/<int:pk>/', SubtasksView.as_view(), name='subtask-detail'),
+    path('subtask/<int:pk>/', SubtasksView.as_view(), name='subtask-detail'),
 ]
