@@ -45,22 +45,6 @@ class TaskSerializer(serializers.ModelSerializer):
         model = Task
         fields = '__all__'
 
-    def update(self, instance, validated_data):
-        assigned_to_data = validated_data.pop('assigned_to', None)
-        subtasks_data = validated_data.pop('subtasks', None)
-
-        instance = super().update(instance, validated_data)
-
-        if assigned_to_data is not None:
-            instance.assigned_to.set(assigned_to_data)
-
-        if subtasks_data is not None:
-            instance.subtasks.clear()  # Clear existing subtasks
-            for subtask_data in subtasks_data:
-                subtask, created = Subtask.objects.get_or_create(**subtask_data)
-                instance.subtasks.add(subtask)
-
-        return instance
     
 
         

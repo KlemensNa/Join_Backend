@@ -20,6 +20,7 @@ from django.urls import path
 from Backend.views import CategoryView, ContactView, LoginView, RegisterView, SubtasksView, TaskView
 
 urlpatterns = [
+    path('', ContactView.as_view()),
     path('admin/', admin.site.urls),
     path('register/', RegisterView.as_view()),
     path('task/', TaskView.as_view()),
