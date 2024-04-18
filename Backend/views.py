@@ -5,9 +5,10 @@ from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from Backend.models import Category, Contact, Subtask, Task
-from Backend.serializer import CategorySerializer, ContactSerializer, SubtasksSerializer, TaskPOSTSerializer, TaskSerializer
+from Backend.serializer import CategorySerializer, ContactSerializer, SubtasksSerializer, TaskPOSTSerializer, TaskSerializer, UserSerializer
 from django.contrib.auth.models import User
 from rest_framework import status
+from django.contrib.auth.models import User
 
 
 
@@ -33,14 +34,23 @@ class LoginView(ObtainAuthToken):
         return Response({
             'token': token.key,
             'username': user.username
-        })  
+        }) 
+        
+    def get(self, request, pk=None, format=None):
+        
+        users = User.objects.all()
+        serializer = UserSerializer(users, many = True)
+        
+        print(serializer)
+        
+        return Response(serializer.data)
                 
 
 class TaskView(APIView):    
     #Authentication with token
     # permission only when authentication is successful
-    # authentication_classes = [TokenAuthentication]
-    # permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, pk=None, format=None):
         if pk:
@@ -88,19 +98,28 @@ class TaskView(APIView):
 class RegisterView(APIView):
     
     def post(self, request, format=None):
-        user = User.objects.create_user(username=request.data.get('username'),
-                                 email=request.data.get('email'),
-                                 password=request.data.get('password'))
-        token, created = Token.objects.get_or_create(user=user)        
-        
-        return Response({
-            'token': token.key,
-            'username': user.username,
-            'email': user.email
-        })
+        try:
+            user = User.objects.create_user(username=request.data.get('username'),
+                                    email=request.data.get('email'),
+                                    password=request.data.get('password'))
+            token, created = Token.objects.get_or_create(user=user)        
+            
+            return Response({
+                'token': token.key,
+                'username': user.username,
+                'email': user.email
+            })
+            
+        except:
+            return
+    
+    
             
 
 class CategoryView(APIView):
+    
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     
     def get(self, request, pk=None, format=None):
         if pk:
@@ -136,6 +155,10 @@ class CategoryView(APIView):
 
 
 class ContactView(APIView):
+    
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     def post(self, request, format=None):
         serializer = ContactSerializer(data=request.data)
         if serializer.is_valid():
@@ -183,6 +206,10 @@ class ContactView(APIView):
     
 
 class SubtasksView(APIView):
+    
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     def post(self, request, format=None):
         serializer = SubtasksSerializer(data=request.data)
         if serializer.is_valid():
