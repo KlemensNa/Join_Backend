@@ -41,8 +41,6 @@ class LoginView(ObtainAuthToken):
         users = User.objects.all()
         serializer = UserSerializer(users, many = True)
         
-        print(serializer)
-        
         return Response(serializer.data)
                 
 
