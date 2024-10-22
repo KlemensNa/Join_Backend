@@ -12,9 +12,6 @@ from django.contrib.auth.models import User
 
 
 
-
-#Endpoint to view --> wird seperat mit eigenen Befehlen im Frontend angesprochen
-
 # @method_decorator(csrf_exempt, name='dispatch')
 class LoginView(ObtainAuthToken):    
     """
@@ -111,8 +108,7 @@ class RegisterView(APIView):
         except:
             return
     
-    
-            
+          
 
 class CategoryView(APIView):
     

@@ -27,12 +27,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
-    '127.0.0.1'
+    '127.0.0.1',
 ]
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost',
-    'http://127.0.0.1:5500'
+    'http://127.0.0.1:5500',
+    'https://join.naueka.de'
 ]
 
 # Application definition
