@@ -28,6 +28,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
+    '34.159.170.214',
+    'joinapi.naueka.de'
 ]
 
 CORS_ALLOWED_ORIGINS = [
