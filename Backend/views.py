@@ -44,8 +44,8 @@ class LoginView(ObtainAuthToken):
 class TaskView(APIView):    
     #Authentication with token
     # permission only when authentication is successful
-    #authentication_classes = [TokenAuthentication]
-    #permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, pk=None, format=None):
         if pk:
@@ -112,8 +112,8 @@ class RegisterView(APIView):
 
 class CategoryView(APIView):
     
-    #authentication_classes = [TokenAuthentication]
-    #permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     
     def get(self, request, pk=None, format=None):
         if pk:
@@ -150,8 +150,8 @@ class CategoryView(APIView):
 
 class ContactView(APIView):
     
-    #authentication_classes = [TokenAuthentication]
-    #permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     
     def post(self, request, format=None):
         serializer = ContactSerializer(data=request.data)
@@ -201,8 +201,8 @@ class ContactView(APIView):
 
 class SubtasksView(APIView):
     
-    #authentication_classes = [TokenAuthentication]
-    #permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     
     def post(self, request, format=None):
         serializer = SubtasksSerializer(data=request.data)
