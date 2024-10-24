@@ -30,13 +30,15 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     '34.159.170.214',
-    'joinapi.naueka.de'
+    'joinapi.naueka.de',
+    'join.naueka.de'
 ]
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost',
     'http://127.0.0.1:5500',
-    'https://join.naueka.de'
+    'https://join.naueka.de',
+    'https://joinapi.naueka.de'
 ]
 
 # Application definition
