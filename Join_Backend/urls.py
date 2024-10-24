@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 
 from Backend.views import CategoryView, ContactView, LoginView, RegisterView, SubtasksView, TaskView
 
@@ -32,4 +34,4 @@ urlpatterns = [
     path('category/<int:pk>/', CategoryView.as_view(), name='category-detail'),
     path('subtask/', SubtasksView.as_view(), name='category-detail'),
     path('subtask/<int:pk>/', SubtasksView.as_view(), name='subtask-detail'),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
